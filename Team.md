@@ -4,4 +4,4 @@
 
 ## 2 RAM SAI
 
-## 3 ANIKTHA
+## 3 ANIKET
