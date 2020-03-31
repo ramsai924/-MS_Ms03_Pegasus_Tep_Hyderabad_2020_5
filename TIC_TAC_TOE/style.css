@@ -1,0 +1,27 @@
+* {
+    margin: 0;
+    background-color: whitesmoke;
+}
+.container {
+    text-align: center;
+    color: gray;
+    margin-bottom: 30px;
+}
+
+.board {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td {
+    height: 150px;
+    width: 150px;
+    border: 5px solid blue;
+    text-align: center;
+    font-size: 100px;
+}
+
+#b {
+    margin-top: 20px;
+    margin-left: 500px;
+}
