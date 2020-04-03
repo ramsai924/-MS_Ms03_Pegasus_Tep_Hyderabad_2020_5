@@ -12,31 +12,82 @@
                var b7 = document.getElementById("seven").innerHTML;
                var b8 = document.getElementById("eight").innerHTML;
                var b9 = document.getElementById("nine").innerHTML;
-               var table = document.getElementById("table")
+               var showResult = document.getElementById("demo");
+               var overlay = document.getElementById("overlay");
+               var resetbtn = document.getElementById("reset");
 
                if(b1 != "" && b1 == b2 && b2 == b3){
-                   console.log(b1 + "win");
+
+                    showResult.innerHTML = b1 + "  win";
+
+                    setTimeout(function(){
+                        overlay.style.filter = "blur(5px)";
+                        resetbtn.style.display = "block";
+                    },1000);
+
                }
                if(b4 != "" && b4 == b5 && b5 == b6){
-                   console.log(b4 + "win")
+                    showResult.innerHTML = b4 + "  win";
+
+                    setTimeout(function(){
+                        overlay.style.filter = "blur(5px)";
+                        resetbtn.style.display = "block";
+                    },1000);
+
                }
                if(b7 != "" && b7 == b8 && b8 == b9){
-                   console.log(b7 + "win")
+                    showResult.innerHTML = b7 + "  win";
+
+                    setTimeout(function(){
+                        overlay.style.filter = "blur(5px)";
+                        resetbtn.style.display = "block";
+                    },1000);
+
                }
                if(b1 != "" && b1 == b4 && b4 == b7){
-                   console.log(b1 + "win")
+                    showResult.innerHTML = b1 + "  win";
+
+                    setTimeout(function(){
+                        overlay.style.filter = "blur(5px)";
+                        resetbtn.style.display = "block";
+                    },1000);
+
                }
                if(b2 != "" && b2 == b5 && b5 == b8){
-                   console.log(b2 + "win")
+                    showResult.innerHTML = b2 + "  win";
+
+                    setTimeout(function(){
+                        overlay.style.filter = "blur(5px)";
+                        resetbtn.style.display = "block";
+                    },1000);
+
                }
                if(b3 != "" && b3 == b6 && b6 == b9){
-                   console.log(b3 + "win")
+                     showResult.innerHTML = b3 + "  win";
+
+                     setTimeout(function(){
+                        overlay.style.filter = "blur(5px)";
+                        resetbtn.style.display = "block";
+                    },1000);
+
                }
-               if(b1 != "" && b1 == b5 && b5 == b9){ // checks the same elements diagolnaly
-                   console.log(b1 + "win")
+               if(b1 != "" && b1 == b5 && b5 == b9){ // checks the same elements Diagonally
+                     showResult.innerHTML = b1 + "  win";
+
+                     setTimeout(function(){
+                        overlay.style.filter = "blur(5px)";
+                        resetbtn.style.display = "block";
+                    },1000);
+
                }
-               if(b3 != "" && b3 == b5 && b5 == b7){ // checks the same elements diagolnaly
-                   console.log(b3 + "win")
+               if(b3 != "" && b3 == b5 && b5 == b7){ // checks the same elements Diagonally
+                     showResult.innerHTML = b3 + "  win";
+
+                     setTimeout(function(){
+                        overlay.style.filter = "blur(5px)";
+                        resetbtn.style.display = "block";
+                    },1000);
+
                }
 
 

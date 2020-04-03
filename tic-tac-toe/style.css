@@ -10,8 +10,7 @@ body{
 }
 #overlay{
     background-color: transparent;
-    /* filter: blur(8px); */
-   
+    /* filter: blur(8px); */ 
 }
 #reset{
     position: absolute;
