@@ -3,40 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <title>TicTacToe</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <title>Document</title>
+    <style>
+        td{
+            width: 100px;
+            height: 100px;
+            border: 1px solid black;
+            text-align: center;
+            font-weight: bold;
+            font-size: 30px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-    <div>
-        <h1 class="container">Welcome to TIC TAC TOE Game!</h1>
-    </div>
-    </header>
-    
-    <section> 
-    <div > 
-    <table class="board">
+  
+    <table id="table">
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td id="one"></td>
+            <td id="two"></td>
+            <td id="three"></td>
         </tr>
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td id="four"></td>
+            <td id="five"></td>
+            <td id="six"></td>
         </tr>
         <tr>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td id="seven"></td>
+            <td id="eight"></td>
+            <td id="nine"></td>
         </tr>
     </table>
-    <button id="b" type="button" name="button">Restart Game!!!</button>
-    </div>
-    
-    </section>
-    
-    <script src="app.js"></script>
+
+    <p id="demo"></p>
+
+    <button onclick="reset()">Reset</button>
+
+    <script src="script.js"></script>
 </body>
 </html>
