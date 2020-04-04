@@ -1,0 +1,28 @@
+body{
+    background-color: lightskyblue;
+}
+
+h2 {
+    text-align: center;
+    font-size: xx-large;
+    font-family: fantasy;
+}
+
+p {
+    text-align: center;
+    position: relative;
+    left: -85px;
+    font-size: xx-large;
+    font-family: monospace;
+    font-size: monospace;
+    font-weight: 600;
+}
+
+#Actuallycanvas{
+    background-color: darkgoldenrod;
+    margin-left: 30%;
+    padding-right: 2%;
+    border: double;
+    border-color:rgb(0, 0, 0);
+    border-radius: 05%;
+}
