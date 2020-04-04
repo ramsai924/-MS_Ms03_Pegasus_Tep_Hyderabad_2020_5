@@ -1,0 +1,47 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #273746;
+}
+.main {
+  position: absolute;
+  left: 38%;
+  top: 25%;
+}
+#overlay {
+  background-color: transparent;
+  /* filter: blur(8px); */
+}
+#reset {
+  position: absolute;
+  left: 44.7%;
+  top: 42%;
+  display: none;
+}
+#button {
+  background-color: red; /* Green */
+  border: 2px solid black;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+#option {
+  width: 200px;
+  height: 50px;
+  background-color: aqua;
+  border: 2px solid black;
+  text-align: center;
+  position: absolute;
+  left: 41.5%;
+  top: 80%;
+}
+#demo {
+  font-size: 20px;
+  font-weight: bold;
+  padding-top: 5px;
+  transform: translateY(-18px);
+}
