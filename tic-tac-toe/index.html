@@ -1,63 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="style.css" />
+    <title>Tic-Tac-Toe</title>
     <style>
-        td{
-            width: 100px;
-            height: 100px;
-            border: 1px solid white;
-            text-align: center;
-            font-weight: bold;
-            font-size: 30px;
-            color: white;
-        }
-        h1{
-            text-align: center;
-            margin-left: -20px;
-            padding: 10px;
-            color: white;
-        }
+      td {
+        width: 100px;
+        height: 100px;
+        border: 1px solid white;
+        text-align: center;
+        font-weight: bold;
+        font-size: 30px;
+        color: white;
+      }
+      h1 {
+        text-align: center;
+        margin-left: -20px;
+        padding: 10px;
+        color: white;
+      }
     </style>
-</head>
-<body>
-  <h1>Tic-Tac-Toe</h1>
-  <div class="main" id="overlay">
-    <table id="table" >
+  </head>
+  <body>
+    <h1>Tic-Tac-Toe</h1>
+    <div class="main" id="overlay">
+      <table id="table">
         <tr>
-            <td id="one"></td>
-            <td id="two"></td>
-            <td id="three"></td>
+          <td id="one"></td>
+          <td id="two"></td>
+          <td id="three"></td>
         </tr>
         <tr>
-            <td id="four"></td>
-            <td id="five"></td>
-            <td id="six"></td>
+          <td id="four"></td>
+          <td id="five"></td>
+          <td id="six"></td>
         </tr>
         <tr>
-            <td id="seven"></td>
-            <td id="eight"></td>
-            <td id="nine"></td>
+          <td id="seven"></td>
+          <td id="eight"></td>
+          <td id="nine"></td>
         </tr>
-    </table>
-  </div>
-
-
-  <div id="option">
-    <p id="demo">START</p>
-  </div>
-
- 
-    
-
-    <div id="reset">
-        <button onclick="reset()" id="button">Reset</button>
+      </table>
     </div>
 
+    <div id="option">
+      <p id="demo">START</p>
+    </div>
+
+    <div id="reset">
+      <button onclick="reset()" id="button">Reset</button>
+    </div>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>
