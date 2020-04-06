@@ -1,15 +1,10 @@
 body{
-<<<<<<< HEAD
-<<<<<<< HEAD
-    background-color: lightskyblue;
-=======
     background-color: darkgoldenrod;
 }
 
 h4 {
     color: black;
-    font-size: 20px;
->>>>>>> vamshi
+    font-size: 50px;
 }
 
 h1 {
@@ -20,28 +15,8 @@ h1 {
 
 #scoreline{
     text-align: center;
-<<<<<<< HEAD
     position: relative;
     left: -85px;
-=======
-    background-color: darkgoldenrod;
-}
-
-h4 {
-    color: black;
-    font-size: 20px;
-}
-
-h1 {
-    text-align: center;
-    font-size: 300%;
-    font-family: fantasy;
-}
-
-#scoreline{
-    text-align: center;
-=======
->>>>>>> vamshi
 }
 
 .clear{
@@ -57,15 +32,10 @@ h1 {
     float :left;
     margin-left: -25px;
     margin-top: 0px;
-<<<<<<< HEAD
->>>>>>> vamshi
-=======
->>>>>>> vamshi
     font-size: xx-large;
     font-family: monospace;
     font-size: monospace;
     font-weight: 600;
-<<<<<<< HEAD
 }
 
 #size {
@@ -88,29 +58,3 @@ h1 {
     border-color:rgb(0, 0, 0);
     border-radius: 05%;
 }
-
-=======
-}
-
-#size {
-    width: 50px;
-    margin-left: 10px;
-    border-radius: 3px;
-}
-
-#canvabox {
-    margin-left: -250px;
-    padding-left: 50%; 
-}
-
-#canvas{
-    background-color: burlywood;
-    margin-left: -250px;
-    margin-top: 40px;
-    padding-right: 0%;
-    border: double;
-    border-color:rgb(0, 0, 0);
-    border-radius: 05%;
-}
->>>>>>> vamshi
-/* vamshi */
