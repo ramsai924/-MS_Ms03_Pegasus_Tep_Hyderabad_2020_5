@@ -1,272 +1,534 @@
-var gameObj = {
-    points: {
-        score: 0,
-        history: [],
-        status: 1
-    },
-    stage: [],
-    intiStage: function () {
-        for (var cell = 0; cell < 4; cell++) {
-            this.stage[cell] = [];
-            for (var row = 0; row < 4; row++) {
-                this.stage[cell][row] = {
-                    boxObj: null,
-                    position: [cell, row]
-                };
-            }
-        }
+//importing the elements form the html file and assigning them 
+<<<<<<< HEAD
+<<<<<<< HEAD
+var canvas = document.getElementById("Actuallycanvas");
+var ctx = canvas.getContext(' 2d');
 
-    },
+//size input 
+=======
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext('2d');
+>>>>>>> vamshi
+
+//sizing the broad
+var sizeInput = document.getElementById('size');
+var changeSize = document.getElementById('change-size');
+var scoreLabel = document.getElementById("scoreline");
+
+//variable declaration
+var score = 0;
+var size = 4;
+var width = canvas.width / size - 5;
+var cells = [];
+var fontSize; 
+var loss = false;
+startGame();
+
+//onclick ok
+changeSize.onclick = function () {
+  if (sizeInput.value >= 2 && sizeInput.value <= 20) {
+    size = sizeInput.value;
+    width = canvas.width / size - 6;
+    console.log(sizeInput.value);
+    canvasClean();
+    startGame();
+  }
+}
+
+//setting cell value on the broad
+function cell(row, col) {
+    this.value = 0;
+    this.x = col * width + 5 * (col + 1);
+    this.y = row * width + 5 * (row + 1);
+}
+
+//setting mutiple cell on the broad
+function createCells() {
+    for(var i = 0; i < size; i++){
+        cells[i] = [];
+        for(var j = 0; j < size; j++){
+            cells[i][j] = new cell(i, j);
+        }
+    }
+}
+
+//drawing single cell on the broad
+function drawCell(cell) { 
+    ctx.beginPath();
+    ctx.rect(cell.x,cell.y, width, width);
+    switch(cell.value) {
+    case 0    : ctx.fillStyle = '#A9A9A9'; break;
+    case 2    : ctx.fillStyle = '#D2691E'; break;
+    case 4    : ctx.fillStyle = '#FF7F50'; break;
+    case 8    : ctx.fillStyle = '#ffbf00'; break;
+    case 16   : ctx.fillStyle = '#bfff00'; break;
+    case 32   : ctx.fillStyle = '#40ff00'; break;
+    case 64   : ctx.fillStyle = '#00bfff'; break;
+    case 128  : ctx.fillStyle = '#FF7F50'; break;
+    case 256  : ctx.fillStyle = '#0040ff'; break;
+    case 512  : ctx.fillStyle = '#ff0080'; break;
+    case 1024 : ctx.fillStyle = '#D2691E'; break;
+    case 2048 : ctx.fillStyle = '#FF7F50'; break;
+    case 4096 : ctx.fillStyle = '#ffbf00'; break;
+    default : ctx.fillStyle = '#ff0080';
+    }
+    ctx.fill();
     
-        empty: function () {
-        var emptyList = [];
-        for (var row = 0; row < 4; row++) {
-            for (var cell = 0; cell < 4; cell++) {
-                if (this.stage[cell][row].boxObj == null) {
-                    emptyList.push(this.stage[cell][row]);
-                }
-            }
-        }
-        return emptyList;
-    },
-    newBox: function () {
-        var _this = this;
-        
-        
-        var box = function (obj) {
-            var num = Math.random() > 0.9 ? 4 : 2;
-            this.value = num;
-            this.parent = obj;
-            this.domObj = function () {
-                var domBox = document.createElement('span');
-                domBox.innerText = num;
-                domBox.textContent = num;
-                domBox.className = 'row' + obj.position[0] + ' ' + 'cell' + obj.position[1] + ' ' + 'num' + num;
-                var root = document.getElementById('stage');
-                root.appendChild(domBox);
-                return  domBox;
-            }();
-            obj.boxObj = this;
-        }
-        var emptyList = this.empty();
-        if (emptyList.length) {
-            var randomIndex = Math.floor(Math.random() * emptyList.length);
-            new box(emptyList[randomIndex]);
-            return true;
-        }
-    },
-    isEnd:function(){
-        var emptyList = this.empty();
-        if (!emptyList.length) {
-            for(var i=0;i<4;i++){
-                for(var j=0;j<4;j++){
-                    var obj=this.stage[i][j];
-                    var objLeft=(j==0)?{boxObj:{value:0}}:this.stage[i][j-1];
-                    var objRight=(j==3)?{boxObj:{value:0}}:this.stage[i][j+1];
-                    var objUp=(i==0)?{boxObj:{value:0}}:this.stage[i-1][j];
-                    var objDown=(i==3)?{boxObj:{value:0}}:this.stage[i+1][j];
-                    if(obj.boxObj.value==objLeft.boxObj.value
-                        ||obj.boxObj.value==objDown.boxObj.value
-                        ||obj.boxObj.value==objRight.boxObj.value
-                        ||obj.boxObj.value==objUp.boxObj.value){
-                        return false
-                    }
-                }
-            }
-            return true;
-        }
-        return false;
-    },
-    gameOver:function(){
-        alert('GAVE OVER!');
-    },
-    moveTo :function (obj1, obj2) {
-            obj2.boxObj = obj1.boxObj;
-            obj2.boxObj.domObj.className = 'row' + obj2.position[0] + ' ' + 'cell' + obj2.position[1] + ' ' + 'num' + obj2.boxObj.value;
-//            obj1.boxObj.domObj.parentNode.removeChild(obj1.boxObj.domObj);
-            obj1.boxObj = null;
-        },
-    addTo : function (obj1, obj2) {
-            obj2.boxObj.domObj.parentNode.removeChild(obj2.boxObj.domObj);
-            obj2.boxObj = obj1.boxObj;
-            obj1.boxObj = null;
-            obj2.boxObj.value = obj2.boxObj.value * 2;
-            obj2.boxObj.domObj.className = 'row' + obj2.position[0] + ' ' + 'cell' + obj2.position[1] + ' ' + 'num' + obj2.boxObj.value;
-            obj2.boxObj.domObj.innerText = obj2.boxObj.value;
-            obj2.boxObj.domObj.textContent = obj2.boxObj.value;
-            this.points.score+=obj2.boxObj.value;
-        var scoreBar= document.getElementById('score');
-        scoreBar.innerText=this.points.score;
-        scoreBar.textContent=this.points.score;
-        return obj2.boxObj.value;
+    if(cell.value){
+        fontSize = width / 2;
+        ctx.font = fontSize + 'px Arial';
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center'; 
+        ctx.fillText(cell.value, cell.x + width / 2, cell.y + width / 2 + width / 7);
+    }   
+}
 
+//cleaning the area
+function canvasClean() {
+  ctx.clearRect(0, 0, 500, 500);
+}
 
-    },
-    clear:function(x,y){
-        var can=0;
-      for(var i=0;i<4;i++){
-          var fst=null;
-          var fstEmpty=null;
-          for(var j=0;j<4;j++){
-              var objInThisWay=null;
-              switch (""+x+y){
-                  case '00': objInThisWay=this.stage[i][j];break;
-                  case '10':objInThisWay=this.stage[j][i];break;
-                  case '11':objInThisWay=this.stage[3-j][i];break;
-                  case '01':objInThisWay=this.stage[i][3-j];break;
-              }
-              if(objInThisWay.boxObj!=null){
-                 if(fstEmpty){
-                   this.moveTo(objInThisWay,fstEmpty)
-                    fstEmpty=null;
-                    j=0;
-                     can=1;
-                 }
-              }else if(!fstEmpty){
-                   fstEmpty=objInThisWay;
-              }
-          }
+//keylistener function's
+document.onkeydown = function (event) {
+  if (!loss) {
+    if (event.keyCode === 38 || event.keyCode === 87) {
+      moveUp(); 
+    } else if (event.keyCode === 39 || event.keyCode === 68) {
+      moveRight();
+    } else if (event.keyCode === 40 || event.keyCode === 83) {
+      moveDown(); 
+    } else if (event.keyCode === 37 || event.keyCode === 65) {
+      moveLeft(); 
+    }
+    scoreLabel.innerHTML = 'Score : ' + score;
+  }
+}
+
+//main function
+function startGame() {
+  createCells();
+  drawAllCells();
+  pasteNewCell();
+  pasteNewCell();
+}
+
+//end game 
+function finishGame() {
+  canvas.style.opacity = '0.5';
+  loss = true;
+}
+
+//drawing multiple cells on the broad
+function drawAllCells() {
+    for(var i = 0; i < size; i++){
+        for (var j = 0; j < size; j++){
+            drawCell(cells[i][j]);
+        }
+    }
+}
+
+//when the new cell generated 
+function pasteNewCell() {
+    var countFree = 0;
+    var i, j;
+    for(i = 0; i < size; i++) {
+      for(j = 0; j < size; j++) {
+        if(!cells[i][j].value) {
+          countFree++;
+        }
       }
-        return can;
-    },
+    }
+
+//test the free cells if found one generate a random number
+if(!countFree) {
+    finishGame();
+    return;
+  }
+  while(true) {
+    var row = Math.floor(Math.random() * size);
+    var coll = Math.floor(Math.random() * size);
+    if(!cells[row][coll].value) {
+      cells[row][coll].value = 2 * Math.ceil(Math.random() * 2);
+      drawAllCells();
+      return;
+    }
+  }
+}
+
+//onkeyRight function
+function moveRight () {
+  var i, j;
+  var coll;
+  for(i = 0; i < size; i++) {
+    for(j = size - 2; j >= 0; j--) {
+      if(cells[i][j].value) {
+        coll = j;
+        while (coll + 1 < size) {
+          if (!cells[i][coll + 1].value) {
+            cells[i][coll + 1].value = cells[i][coll].value;
+            cells[i][coll].value = 0;
+            coll++;
+          } else if (cells[i][coll].value == cells[i][coll + 1].value) {
+            cells[i][coll + 1].value *= 2;
+            score +=  cells[i][coll + 1].value;
+            cells[i][coll].value = 0;
+            break;
+          } else {
+            break;
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+
+//onkeyLeft function
+function moveLeft() {
+  var i, j;
+  var coll;
+  for(i = 0; i < size; i++) {
+    for(j = 1; j < size; j++) {
+      if(cells[i][j].value) {
+        coll = j;
+        while (coll - 1 >= 0) {
+          if (!cells[i][coll - 1].value) {//calling the main function
+            // startGame();
+            cells[i][coll - 1].value = cells[i][coll].value;
+            cells[i][coll].value = 0;
+            coll--;
+          } else if (cells[i][coll].value == cells[i][coll - 1].value) {
+            cells[i][coll - 1].value *= 2;
+            score +=   cells[i][coll - 1].value;
+            cells[i][coll].value = 0;
+            break;
+          } else {
+            break; 
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+
+//onkeyUp function
+function moveUp() {
+  var i, j, row;
+  for(j = 0; j < size; j++) {
+    for(i = 1; i < size; i++) {
+      if(cells[i][j].value) {
+        row = i;
+        while (row > 0) {
+          if(!cells[row - 1][j].value) {
+            cells[row - 1][j].value = cells[row][j].value;
+            cells[row][j].value = 0;
+            row--;
+          } else if (cells[row][j].value == cells[row - 1][j].value) {
+            cells[row - 1][j].value *= 2;
+            score +=  cells[row - 1][j].value;
+            cells[row][j].value = 0;
+            break;
+          } else {
+            break; 
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+
+//onkeyDown function
+function moveDown() {
+  var i, j, row;
+  for(j = 0; j < size; j++) {
+    for(i = size - 2; i >= 0; i--) {
+      if(cells[i][j].value) {
+        row = i;
+        while (row + 1 < size) {
+          if (!cells[row + 1][j].value) {
+            cells[row + 1][j].value = cells[row][j].value;
+            cells[row][j].value = 0;
+            row++;
+          } else if (cells[row][j].value == cells[row + 1][j].value) {
+            cells[row + 1][j].value *= 2;
+            score +=  cells[row + 1][j].value;
+            cells[row][j].value = 0;
+            break;
+          } else {
+            break; 
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+
+<<<<<<< HEAD
+stratGame();
+=======
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext('2d');
+
+//sizing the broad
+var sizeInput = document.getElementById('size');
+var changeSize = document.getElementById('change-size');
+var scoreLabel = document.getElementById("scoreline");
+
+//variable declaration
+var score = 0;
+var size = 4;
+var width = canvas.width / size - 5;
+var cells = [];
+var fontSize; 
+var loss = false;
+startGame();
+
+//onclick ok
+changeSize.onclick = function () {
+  if (sizeInput.value >= 2 && sizeInput.value <= 20) {
+    size = sizeInput.value;
+    width = canvas.width / size - 6;
+    console.log(sizeInput.value);
+    canvasClean();
+    startGame();
+  }
+}
+
+//setting cell value on the broad
+function cell(row, col) {
+    this.value = 0;
+    this.x = col * width + 5 * (col + 1);
+    this.y = row * width + 5 * (row + 1);
+}
+
+//setting mutiple cell on the broad
+function createCells() {
+    for(var i = 0; i < size; i++){
+        cells[i] = [];
+        for(var j = 0; j < size; j++){
+            cells[i][j] = new cell(i, j);
+        }
+    }
+}
+
+//drawing single cell on the broad
+function drawCell(cell) { 
+    ctx.beginPath();
+    ctx.rect(cell.x,cell.y, width, width);
+    switch(cell.value) {
+    case 0    : ctx.fillStyle = '#A9A9A9'; break;
+    case 2    : ctx.fillStyle = '#D2691E'; break;
+    case 4    : ctx.fillStyle = '#FF7F50'; break;
+    case 8    : ctx.fillStyle = '#ffbf00'; break;
+    case 16   : ctx.fillStyle = '#bfff00'; break;
+    case 32   : ctx.fillStyle = '#40ff00'; break;
+    case 64   : ctx.fillStyle = '#00bfff'; break;
+    case 128  : ctx.fillStyle = '#FF7F50'; break;
+    case 256  : ctx.fillStyle = '#0040ff'; break;
+    case 512  : ctx.fillStyle = '#ff0080'; break;
+    case 1024 : ctx.fillStyle = '#D2691E'; break;
+    case 2048 : ctx.fillStyle = '#FF7F50'; break;
+    case 4096 : ctx.fillStyle = '#ffbf00'; break;
+    default : ctx.fillStyle = '#ff0080';
+    }
+    ctx.fill();
     
-    move: function (x,y) {
-        var can=0;
-        can=this.clear(x,y)?1:0;
-        var add=0;
-        for(var i=0;i<4;i++){
-            for(var j=0;j<3;j++){
-                var objInThisWay=null;
-                var objInThisWay2=null;
-                switch (""+x+y){
-                    case '00':{
-                        objInThisWay=this.stage[i][j];
-                        objInThisWay2=this.stage[i][j+1];break;
-                    }
-                    case '10':{
-                        objInThisWay=this.stage[j][i];
-                        objInThisWay2=this.stage[j+1][i];break;
-                    }
+    if(cell.value){
+        fontSize = width / 2;
+        ctx.font = fontSize + 'px Arial';
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center'; 
+        ctx.fillText(cell.value, cell.x + width / 2, cell.y + width / 2 + width / 7);
+    }   
+}
 
-                    case '11':{
-                        objInThisWay=this.stage[3-j][i];
-                        objInThisWay2=this.stage[2-j][i];break;
-                    }
-                    case '01':{
-                        objInThisWay=this.stage[i][3-j];
-                        objInThisWay2=this.stage[i][2-j];break;
-                    }
-                }
-                if(objInThisWay2.boxObj&&objInThisWay.boxObj.value==objInThisWay2.boxObj.value){
-                  add+=this.addTo(objInThisWay2,objInThisWay);
-                    this.clear(x,y);
-//                    j++;
-                    can=1;
-                }
-//                console.log(this.stage);
-            }
-        }
-        if(add){
-            var addscore=document.getElementById('addScore');
-            addscore.innerText="+"+add;
-            addscore.textContent="+"+add;
-            addscore.className="show";
-            setTimeout(function(){
-                addscore.className="hide";
-            },500);
-        }
-        if(can){
-            this.newBox();
-        }
-        if(this.isEnd()){
-            this.gameOver();
-        }
-    },
+//cleaning the area
+function canvasClean() {
+  ctx.clearRect(0, 0, 500, 500);
+}
 
-    inti: null
+//keylistener function's
+document.onkeydown = function (event) {
+  if (!loss) {
+    if (event.keyCode === 38 || event.keyCode === 87) {
+      moveUp(); 
+    } else if (event.keyCode === 39 || event.keyCode === 68) {
+      moveRight();
+    } else if (event.keyCode === 40 || event.keyCode === 83) {
+      moveDown(); 
+    } else if (event.keyCode === 37 || event.keyCode === 65) {
+      moveLeft(); 
+    }
+    scoreLabel.innerHTML = 'Score : ' + score;
+  }
 }
-var controller = function () {
-    var startX = 0;
-    var startY = 0;
-    var ready = 0;
-    this.start = function (x, y) {
-        ready = 1;
-        startX = x;
-        startY = y;
-    };
-    this.move = function (x, y) {
-        if (x - startX > 100 && ready) {
-            gameObj.move(0, 1);
-            ready = 0;
-        } else if (startX - x > 100 && ready) {
-            gameObj.move(0, 0);
-            ready = 0;
-        }
-        else if (startY - y > 100 && ready) {
-            gameObj.move(1, 0);
-            ready = 0;
-        }
-        else if (y - startY > 100 && ready) {
-            gameObj.move(1, 1);
-            ready = 0;
-        }
-    }
-    this.end = function (x, y) {
-        ready = 0;
-    }
-    return {
-        start: this.start,
-        move: this.move,
-        end: this.end
-    }
-}();
-function disableSelection(target){
-    if (typeof target.onselectstart!="undefined") //IE route
-        target.onselectstart=function(){return false}
-    else if (typeof target.style.MozUserSelect!="undefined") //Firefox route
-        target.style.MozUserSelect="none"
-    else //All other route (ie: Opera)
-        target.onmousedown=function(){return false}
-    target.style.cursor = "default"
+
+//main function
+function startGame() {
+  createCells();
+  drawAllCells();
+  pasteNewCell();
+  pasteNewCell();
 }
-window.onload = function () {
-    gameObj.intiStage();
-    gameObj.newBox();
-//    gameObj.newBox();
-    var stage = document.getElementById('stage');
-    document.onmousedown = function (e) {
-        var event = e || window.event;
-        var obj = event.target || event.srcElement;
-        var x = event.clientX;
-        var y = event.clientY;
-        controller.start(x, y);
-    }
-    document.onmousemove = function (e) {
-        var event = e || window.event;
-        var obj = event.target || event.srcElement;
-        var x = event.clientX;
-        var y = event.clientY;
-        controller.move(x, y);
-    }
-    document.onmouseup = function (e) {
-        var event = e || window.event;
-        var obj = event.target || event.srcElement;
-        var x = event.clientX;
-        var y = event.clientY;
-        controller.end(x, y);
-    }
-    function keyUp(e) {
-        var currKey=0,e=e||event;
-        currKey=e.keyCode||e.which||e.charCode;
-        var keyName = String.fromCharCode(currKey);
-        switch (currKey){
-            case 37:gameObj.move(0, 0);break;
-            case 38:gameObj.move(1, 0);break;
-            case 39:gameObj.move(0, 1);break;
-            case 40:gameObj.move(1, 1);break;
-        }
-//        alert("key code: " + currKey + " Character: " + keyName);
-    }
-    document.onkeyup = keyUp;
-//    disableSelection(document.body);
+
+//end game 
+function finishGame() {
+  canvas.style.opacity = '0.5';
+  loss = true;
 }
+
+//drawing multiple cells on the broad
+function drawAllCells() {
+    for(var i = 0; i < size; i++){
+        for (var j = 0; j < size; j++){
+            drawCell(cells[i][j]);
+        }
+    }
+}
+
+//when the new cell generated 
+function pasteNewCell() {
+    var countFree = 0;
+    var i, j;
+    for(i = 0; i < size; i++) {
+      for(j = 0; j < size; j++) {
+        if(!cells[i][j].value) {
+          countFree++;
+        }
+      }
+    }
+
+//test the free cells if found one generate a random number
+if(!countFree) {
+    finishGame();
+    return;
+  }
+  while(true) {
+    var row = Math.floor(Math.random() * size);
+    var coll = Math.floor(Math.random() * size);
+    if(!cells[row][coll].value) {
+      cells[row][coll].value = 2 * Math.ceil(Math.random() * 2);
+      drawAllCells();
+      return;
+    }
+  }
+}
+
+//onkeyRight function
+function moveRight () {
+  var i, j;
+  var coll;
+  for(i = 0; i < size; i++) {
+    for(j = size - 2; j >= 0; j--) {
+      if(cells[i][j].value) {
+        coll = j;
+        while (coll + 1 < size) {
+          if (!cells[i][coll + 1].value) {
+            cells[i][coll + 1].value = cells[i][coll].value;
+            cells[i][coll].value = 0;
+            coll++;
+          } else if (cells[i][coll].value == cells[i][coll + 1].value) {
+            cells[i][coll + 1].value *= 2;
+            score +=  cells[i][coll + 1].value;
+            cells[i][coll].value = 0;
+            break;
+          } else {
+            break;
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+
+//onkeyLeft function
+function moveLeft() {
+  var i, j;
+  var coll;
+  for(i = 0; i < size; i++) {
+    for(j = 1; j < size; j++) {
+      if(cells[i][j].value) {
+        coll = j;
+        while (coll - 1 >= 0) {
+          if (!cells[i][coll - 1].value) {//calling the main function
+            // startGame();
+            cells[i][coll - 1].value = cells[i][coll].value;
+            cells[i][coll].value = 0;
+            coll--;
+          } else if (cells[i][coll].value == cells[i][coll - 1].value) {
+            cells[i][coll - 1].value *= 2;
+            score +=   cells[i][coll - 1].value;
+            cells[i][coll].value = 0;
+            break;
+          } else {
+            break; 
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+
+//onkeyUp function
+function moveUp() {
+  var i, j, row;
+  for(j = 0; j < size; j++) {
+    for(i = 1; i < size; i++) {
+      if(cells[i][j].value) {
+        row = i;
+        while (row > 0) {
+          if(!cells[row - 1][j].value) {
+            cells[row - 1][j].value = cells[row][j].value;
+            cells[row][j].value = 0;
+            row--;
+          } else if (cells[row][j].value == cells[row - 1][j].value) {
+            cells[row - 1][j].value *= 2;
+            score +=  cells[row - 1][j].value;
+            cells[row][j].value = 0;
+            break;
+          } else {
+            break; 
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+
+//onkeyDown function
+function moveDown() {
+  var i, j, row;
+  for(j = 0; j < size; j++) {
+    for(i = size - 2; i >= 0; i--) {
+      if(cells[i][j].value) {
+        row = i;
+        while (row + 1 < size) {
+          if (!cells[row + 1][j].value) {
+            cells[row + 1][j].value = cells[row][j].value;
+            cells[row][j].value = 0;
+            row++;
+          } else if (cells[row][j].value == cells[row + 1][j].value) {
+            cells[row + 1][j].value *= 2;
+            score +=  cells[row + 1][j].value;
+            cells[row][j].value = 0;
+            break;
+          } else {
+            break; 
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+
+>>>>>>> vamshi
+//vasbj
+=======
+>>>>>>> vamshi
