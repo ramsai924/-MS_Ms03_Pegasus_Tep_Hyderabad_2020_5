@@ -1,15 +1,11 @@
 //importing the elements form the html file and assigning them 
-var canvas = document.getElementById("Actuallycanvas");
-var ctx = canvas.getContext(' 2d');
-
-//size input 
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext('2d');
 
 //sizing the broad
 var sizeInput = document.getElementById('size');
 var changeSize = document.getElementById('change-size');
-var scoreLabel = document.getElementById("scoreline");
+var scoreLabel = document.getElementById('scoreline');
 
 //variable declaration
 var score = 0;
@@ -134,21 +130,19 @@ function pasteNewCell() {
         }
       }
     }
-
-//test the free cells if found one generate a random number
-if(!countFree) {
-    finishGame();
-    return;
-  }
-  while(true) {
-    var row = Math.floor(Math.random() * size);
-    var coll = Math.floor(Math.random() * size);
-    if(!cells[row][coll].value) {
-      cells[row][coll].value = 2 * Math.ceil(Math.random() * 2);
-      drawAllCells();
+    if(!countFree) {
+      finishGame();
       return;
     }
-  }
+    while(true) {
+      var row = Math.floor(Math.random() * size);
+      var coll = Math.floor(Math.random() * size);
+      if(!cells[row][coll].value) {
+        cells[row][coll].value = 2 * Math.ceil(Math.random() * 2);
+        drawAllCells();
+        return;
+      }
+    }
 }
 
 //onkeyRight function
