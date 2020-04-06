@@ -1,9 +1,10 @@
 //importing the elements form the html file and assigning them 
-var canvas = document.getElementById("Actuallycanvas");
-var ctx = canvas.getContext(' 2d');
+var canvas = document.getElementById("canvas");
+var ctx = canvas.getContext('2d');
 
-//size input 
-
+//sizing the broad
+var sizeInput = document.getElementById('size');
+var changeSize = document.getElementById('change-size');
 var scoreLabel = document.getElementById("scoreline");
 
 //variable declaration
@@ -12,19 +13,25 @@ var size = 4;
 var width = canvas.width / size - 5;
 var cells = [];
 var fontSize; 
-var loss = false // if this is ture the game reset
+var loss = false;
+startGame();
 
-//main function
-function stratGame() {
-    createCells();
-    drawCells();
+//onclick ok
+changeSize.onclick = function () {
+  if (sizeInput.value >= 2 && sizeInput.value <= 20) {
+    size = sizeInput.value;
+    width = canvas.width / size - 6;
+    console.log(sizeInput.value);
+    canvasClean();
+    startGame();
+  }
 }
 
 //setting cell value on the broad
-function Cell(row, col) {
+function cell(row, col) {
     this.value = 0;
     this.x = col * width + 5 * (col + 1);
-    this.y = col * width + 5 * (row + 1);
+    this.y = row * width + 5 * (row + 1);
 }
 
 //setting mutiple cell on the broad
@@ -32,48 +39,222 @@ function createCells() {
     for(var i = 0; i < size; i++){
         cells[i] = [];
         for(var j = 0; j < size; j++){
-            cells[i][j] = new cell(i,j);
+            cells[i][j] = new cell(i, j);
         }
     }
 }
 
 //drawing single cell on the broad
-function drawCell() { 
-    ctx.beginaPath();
-    ctx.rect(cell.x,cell.y, width, wdith)
-
+function drawCell(cell) { 
+    ctx.beginPath();
+    ctx.rect(cell.x,cell.y, width, width);
     switch(cell.value) {
-        case 0    : ctx.fillStyle = "red"; break;
-        case 2    : ctx.fillStyle = "blue"; break;
-        case 4    : ctx.fillStyle = "yellow"; break;
-        case 8    : ctx.fillStyle = "green"; break;
-        case 16   : ctx.fillStyle = "brown"; break;
-        case 32   : ctx.fillStyle = "lightskyblue"; break;
-        case 64   : ctx.fillStyle = "pink"; break;
-        case 128  : ctx.fillStyle = "voilet"; break;
-        case 256  : ctx.fillStyle = "orange"; break;
-        case 512  : ctx.fillStyle = "lightyellow"; break;
-        case 1024 : ctx.fillStyle = "white"; break;
-        case 2048 : ctx.fillStyle = "black"; break;
-        default : ctx.fillStyle = "";
+    case 0    : ctx.fillStyle = '#A9A9A9'; break;
+    case 2    : ctx.fillStyle = '#D2691E'; break;
+    case 4    : ctx.fillStyle = '#FF7F50'; break;
+    case 8    : ctx.fillStyle = '#ffbf00'; break;
+    case 16   : ctx.fillStyle = '#bfff00'; break;
+    case 32   : ctx.fillStyle = '#40ff00'; break;
+    case 64   : ctx.fillStyle = '#00bfff'; break;
+    case 128  : ctx.fillStyle = '#FF7F50'; break;
+    case 256  : ctx.fillStyle = '#0040ff'; break;
+    case 512  : ctx.fillStyle = '#ff0080'; break;
+    case 1024 : ctx.fillStyle = '#D2691E'; break;
+    case 2048 : ctx.fillStyle = '#FF7F50'; break;
+    case 4096 : ctx.fillStyle = '#ffbf00'; break;
+    default : ctx.fillStyle = '#ff0080';
     }
-    
     ctx.fill();
+    
     if(cell.value){
         fontSize = width / 2;
-        ctx.font = fontSize + "Arial";
-        ctx.fillStyle = "white";
-        ctx.filltext(cell.value, cell.x + width / 2, cell.y + width / 2);
+        ctx.font = fontSize + 'px Arial';
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center'; 
+        ctx.fillText(cell.value, cell.x + width / 2, cell.y + width / 2 + width / 7);
+    }   
+}
+
+//cleaning the area
+function canvasClean() {
+  ctx.clearRect(0, 0, 500, 500);
+}
+
+//keylistener function's
+document.onkeydown = function (event) {
+  if (!loss) {
+    if (event.keyCode === 38 || event.keyCode === 87) {
+      moveUp(); 
+    } else if (event.keyCode === 39 || event.keyCode === 68) {
+      moveRight();
+    } else if (event.keyCode === 40 || event.keyCode === 83) {
+      moveDown(); 
+    } else if (event.keyCode === 37 || event.keyCode === 65) {
+      moveLeft(); 
     }
+    scoreLabel.innerHTML = 'Score : ' + score;
+  }
+}
+
+//main function
+function startGame() {
+  createCells();
+  drawAllCells();
+  pasteNewCell();
+  pasteNewCell();
+}
+
+//end game 
+function finishGame() {
+  canvas.style.opacity = '0.5';
+  loss = true;
 }
 
 //drawing multiple cells on the broad
-function drawCells() {
- for(var i = 0; i < size; i++){
-     for (var j = 0; j < size; j++){
-         drawCell(cell[i][j]);
-     }
- }
+function drawAllCells() {
+    for(var i = 0; i < size; i++){
+        for (var j = 0; j < size; j++){
+            drawCell(cells[i][j]);
+        }
+    }
 }
 
-stratGame();
+//when the new cell generated 
+function pasteNewCell() {
+    var countFree = 0;
+    var i, j;
+    for(i = 0; i < size; i++) {
+      for(j = 0; j < size; j++) {
+        if(!cells[i][j].value) {
+          countFree++;
+        }
+      }
+    }
+
+//test the free cells if found one generate a random number
+if(!countFree) {
+    finishGame();
+    return;
+  }
+  while(true) {
+    var row = Math.floor(Math.random() * size);
+    var coll = Math.floor(Math.random() * size);
+    if(!cells[row][coll].value) {
+      cells[row][coll].value = 2 * Math.ceil(Math.random() * 2);
+      drawAllCells();
+      return;
+    }
+  }
+}
+
+//onkeyRight function
+function moveRight () {
+  var i, j;
+  var coll;
+  for(i = 0; i < size; i++) {
+    for(j = size - 2; j >= 0; j--) {
+      if(cells[i][j].value) {
+        coll = j;
+        while (coll + 1 < size) {
+          if (!cells[i][coll + 1].value) {
+            cells[i][coll + 1].value = cells[i][coll].value;
+            cells[i][coll].value = 0;
+            coll++;
+          } else if (cells[i][coll].value == cells[i][coll + 1].value) {
+            cells[i][coll + 1].value *= 2;
+            score +=  cells[i][coll + 1].value;
+            cells[i][coll].value = 0;
+            break;
+          } else {
+            break;
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+
+//onkeyLeft function
+function moveLeft() {
+  var i, j;
+  var coll;
+  for(i = 0; i < size; i++) {
+    for(j = 1; j < size; j++) {
+      if(cells[i][j].value) {
+        coll = j;
+        while (coll - 1 >= 0) {
+          if (!cells[i][coll - 1].value) {//calling the main function
+            // startGame();
+            cells[i][coll - 1].value = cells[i][coll].value;
+            cells[i][coll].value = 0;
+            coll--;
+          } else if (cells[i][coll].value == cells[i][coll - 1].value) {
+            cells[i][coll - 1].value *= 2;
+            score +=   cells[i][coll - 1].value;
+            cells[i][coll].value = 0;
+            break;
+          } else {
+            break; 
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+
+//onkeyUp function
+function moveUp() {
+  var i, j, row;
+  for(j = 0; j < size; j++) {
+    for(i = 1; i < size; i++) {
+      if(cells[i][j].value) {
+        row = i;
+        while (row > 0) {
+          if(!cells[row - 1][j].value) {
+            cells[row - 1][j].value = cells[row][j].value;
+            cells[row][j].value = 0;
+            row--;
+          } else if (cells[row][j].value == cells[row - 1][j].value) {
+            cells[row - 1][j].value *= 2;
+            score +=  cells[row - 1][j].value;
+            cells[row][j].value = 0;
+            break;
+          } else {
+            break; 
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+
+//onkeyDown function
+function moveDown() {
+  var i, j, row;
+  for(j = 0; j < size; j++) {
+    for(i = size - 2; i >= 0; i--) {
+      if(cells[i][j].value) {
+        row = i;
+        while (row + 1 < size) {
+          if (!cells[row + 1][j].value) {
+            cells[row + 1][j].value = cells[row][j].value;
+            cells[row][j].value = 0;
+            row++;
+          } else if (cells[row][j].value == cells[row + 1][j].value) {
+            cells[row + 1][j].value *= 2;
+            score +=  cells[row + 1][j].value;
+            cells[row][j].value = 0;
+            break;
+          } else {
+            break; 
+          }
+        }
+      }
+    }
+  }
+  pasteNewCell();
+}
+

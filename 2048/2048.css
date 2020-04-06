@@ -1,27 +1,57 @@
 body{
-    background-color: lightskyblue;
+    background-color: darkgoldenrod;
 }
 
-h2 {
+h4 {
+    color: black;
+    font-size: 20px;
+}
+
+h1 {
     text-align: center;
-    font-size: xx-large;
+    font-size: 300%;
     font-family: fantasy;
 }
 
-p {
+#scoreline{
     text-align: center;
-    position: relative;
-    left: -85px;
+}
+
+.clear{
+    clear: both;
+}
+
+#size-block{
+    margin-left: -50px;
+    padding-left: 50%;
+}
+
+#size-title {
+    float :left;
+    margin-left: -25px;
+    margin-top: 0px;
     font-size: xx-large;
     font-family: monospace;
     font-size: monospace;
     font-weight: 600;
 }
 
-#Actuallycanvas{
-    background-color: darkgoldenrod;
-    margin-left: 30%;
-    padding-right: 2%;
+#size {
+    width: 50px;
+    margin-left: 10px;
+    border-radius: 3px;
+}
+
+#canvabox {
+    margin-left: -250px;
+    padding-left: 50%; 
+}
+
+#canvas{
+    background-color: burlywood;
+    margin-left: -250px;
+    margin-top: 40px;
+    padding-right: 0%;
     border: double;
     border-color:rgb(0, 0, 0);
     border-radius: 05%;
