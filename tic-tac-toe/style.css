@@ -3,7 +3,6 @@ body{
     padding: 0;
     background-color: #253259;
     overflow-x: hidden;
-    /* box-sizing: border-box; */
 }
 td{
     width: 100px;
@@ -16,6 +15,7 @@ td{
 }
 h1{
     text-align: center;
+    margin-left: -20px;
     padding: 10px;
     color: white;
 }
@@ -48,13 +48,13 @@ h1{
 .main{
     position: absolute;
     left: 38%;
-    top: 20%;
+    top: 25%;
 }
-/* #overlay{
+#overlay{
     background-color: transparent;
-    filter: blur(8px); 
+    /* filter: blur(8px); */
    
-} */
+}
 #reset{
     position: absolute;
     left: 44.7%;
@@ -74,17 +74,17 @@ h1{
 }
 #option{
     width: 200px;
-    height: 60px;
-    background-color: #BF3945;
+    height: 50px;
+    background-color: #A66844;
     border: 2px solid black;
     text-align: center;
     position: absolute;
-    left: 42.5%;
-    top: 80%;
+    left: 41.5%;
+    top: 70%;
 }
 #demo{
     font-size: 20px;
     font-weight: bold;
-    /* padding: 1px; */
-    /* transform: translateY(-18px); */
+    padding: 10px;
+    transform: translateY(-18px);
 }

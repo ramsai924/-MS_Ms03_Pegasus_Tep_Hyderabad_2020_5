@@ -1,137 +1,140 @@
-var ul = document.getElementsByTagName("td"); // Selecting the td elements
-//console.log(ul.length) , o/p = 9
+$(document).ready(function(){
+            
 
-var showResult = document.getElementById("demo");
-var xwin = document.getElementById("xwin");
-var owin = document.getElementById("owin");
+    function insert(){
 
-function insert() {
-  // this function will insert the value to the game
+       for(let i=0;i<$("td").length;i++){
 
-  var num = 0; //This varibales help inserting X and O values alternatively
+        //console.log(("td").length) o/p = 9
 
-  for (let i = 0; i < ul.length; i++) {
-    ul[i].addEventListener("click", function () {
-      if (ul[i].innerHTML == "") {
-        if (num % 2 == 0) {
-          // if num is EVEN it will return X value
-          ul[i].innerHTML = "X";
-          showResult.innerHTML = " Now O Chance"; // This will the next chance for the player
+        var alternate = 0;
 
-          selectWinner();
-          //console.log(selectWinner());
+        $("td").eq(i).on("click", function(){
 
-          if (selectWinner() == "X") {
-            xwin.innerHTML = "x win";
-            xwin.style.left = 0;
-          }
+            if($("td").eq(i).html() == ""){
+                
+                    if(alternate % 2 == 0){
 
-          num++;
-        } // if num is ODD it will return O value
-        else {
-          ul[i].innerHTML = "O";
-          showResult.innerHTML = " Now X Chance"; // This will the next chance for the player
+                        $("td").eq(i).html("X");
 
-          selectWinner();
-          //console.log(selectWinner());
+                        alternate++;
 
-          if (selectWinner() == "O") {
-            owin.innerHTML = "O win";
-            owin.style.right = 0;
-          }
+                        winner();
+                        console.log(winner());
 
-          num++;
-        }
-      } else {
-        showResult.innerHTML = "Already inserted";
-      } 
-    });
-  }
-}
+                        $("#demo").html("Now O chance");
 
-insert();
 
-function selectWinner() {
-  // This function will pick winner
+                        if(winner() == "X"){
+                            $("#xwin").css({"left" : "0"});
+                            $("#xwin").html("X win");
+                        }
 
-  // Selecting 9 boxes
+                        
+                    }else{
 
-  var b1 = document.getElementById("one").innerHTML;
-  var b2 = document.getElementById("two").innerHTML;
-  var b3 = document.getElementById("three").innerHTML;
-  var b4 = document.getElementById("four").innerHTML;
-  var b5 = document.getElementById("five").innerHTML;
-  var b6 = document.getElementById("six").innerHTML;
-  var b7 = document.getElementById("seven").innerHTML;
-  var b8 = document.getElementById("eight").innerHTML;
-  var b9 = document.getElementById("nine").innerHTML;
-  var overlay = document.getElementById("overlay");
-  var resetbtn = document.getElementById("reset");
+                        $("td").eq(i).html("O");
 
-  // This function returns the Pop up Reset button after winning
+                        alternate++;
 
-  function reset() {
-    setTimeout(function () {
-      overlay.style.filter = "blur(5px)";
-      resetbtn.style.display = "block";
-    }, 1000);
-  }
+                        winner();
+                        //console.log(winner());
 
-  // checks the possibility of winning in rows , columns and in diagonally
+                        $("#demo").html("Now X chance");
 
-  if (b1 != "" && b1 == b2 && b2 == b3) {
-    reset();
+                        if(winner() == "O"){
+                            $("#owin").css({"right" : "0"});
+                            $("#owin").html("O win");
+                        }
+                        
+                    }
+                }else{
+                    $("#demo").html("already avaliable");
+                }
 
-    return b1;
-  }
-  if (b4 != "" && b4 == b5 && b5 == b6) {
-    reset();
+            });
+       }
+ 
+    }
+    insert();
 
-    return b4;
-  }
-  if (b7 != "" && b7 == b8 && b8 == b9) {
-    reset();
 
-    return b7;
-  }
-  if (b1 != "" && b1 == b4 && b4 == b7) {
-    reset();
+    function winner(){ // This function will pick winner 
 
-    return b1;
-  }
-  if (b2 != "" && b2 == b5 && b5 == b8) {
-    reset();
+        // Selecting 9 boxes 
+       var b1 = $("#one").html();
+       var b2 = $("#two").html();
+       var b3 = $("#three").html();
+       var b4 = $("#four").html();
+       var b5 = $("#five").html();
+       var b6 = $("#six").html();
+       var b7 = $("#seven").html();
+       var b8 = $("#eight").html();
+       var b9 = $("#nine").html();
+      
+        // This function returns the Pop up Reset button after winning
+       function reset(){ 
 
-    return b2;
-  }
-  if (b3 != "" && b3 == b6 && b6 == b9) {
-    reset();
+        setTimeout(function(){
+            $("#overlay").css({"filter" : "blur(5px)"})
+            $("#reset").css({"display" : "block"})
+        },5000);
 
-    return b3;
-  }
-  if (b1 != "" && b1 == b5 && b5 == b9) {
-    // checks the same elements Diagonally
+       }
+            // This if statements will checks the possibility of winning in rows , columns and in diagonally
+            if(b1 != "" && b1 == b2 && b2 == b3){
+            reset();
+            return b1;
+            }
 
-    reset();
+            if(b4 != "" && b4 == b5 && b5 == b6){
+            reset();
+            return b4;
+            }
 
-    return b1;
-  }
-  if (b3 != "" && b3 == b5 && b5 == b7) {
-    // checks the same elements Diagonally
+            if(b7 != "" && b7 == b8 && b8 == b9){
+            reset();
+            return b7;
+            }
 
-    reset();
+            if(b1 != "" && b1 == b4 && b4 == b7){
+            reset();
+            return b1;
+            }
 
-    return b3;
-  }
-  if(b1 != "" && b2 != "" && b3 !="" && b4 != "" && b5 !="" && b6 !="" && b7 != "" && b8 != "" && b9 != ""){
-    reset()
-    showResult.innerHTML = "Match Tied"
-  }
-  
-}
+            if(b2 != "" && b2 == b5 && b5 == b8){
+            reset();
+            return b2;
+            }
 
-// Resets the Game
+            if(b3 != "" && b3 == b6 && b6 == b9){
+            reset();
+            return b3;
+            }
 
-function reset() {
-  window.location.reload(true);
-}
+            if(b1 != "" && b1 == b5 && b5 == b9){ // checks the same elements Diagonally
+            reset();
+            return b1;
+            }
+
+            if(b3 != "" && b3 == b5 && b5 == b7){ // checks the same elements Diagonally                    
+            reset();
+            return b3;
+            }
+
+            if(b1 != "" && b2 != "" && b3 !="" && b4 != "" && b5 !="" && b6 !="" && b7 != "" && b8 != "" && b9 != ""){
+                reset()
+                $("#demo").html("Match Tie");
+              }
+
+
+    }
+
+
+    // Resets the Game
+
+    $("#button").on("click", function(){
+        window.location.reload(true);
+    })
+
+});
